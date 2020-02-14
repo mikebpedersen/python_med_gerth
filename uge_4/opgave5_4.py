@@ -6,3 +6,11 @@ returns one list that is the concatenation of all lists, i.e. L1+L2+···+Lk.
 Your implementation should use list comprehension.
 """
 
+L = [[1, 2], [3, 4], [6, 3]]
+
+
+def flatten(lists):
+    return [elm for l in lists for elm in l]
+
+
+print(flatten(L))

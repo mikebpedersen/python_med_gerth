@@ -9,8 +9,14 @@ HINT: Use a dictionary and the dictionary method get.
 
 Note. In the standard library module collections the
 Counter method implements the same functionality:
-    
+
 import collections
-histogram = list(collections.Counter(['A', 'B', 'A', 'A', 'C', 'E', 'C']).items())
+hist = list(collections.Counter(['A', 'B', 'A', 'A', 'C', 'E', 'C']).items())
 """
+
+elements = ['A', 'B', 'A', 'A', 'C', 'E', 'C']
+
+
+def hist(x):
+    return 
 

@@ -11,5 +11,4 @@ sorted to generate an alphabetically sorted list of names
 first = ['Donald', 'Mickey', 'Scrooge']
 last = ['Duck', 'Mouse', 'McDuck']
 
-
-print([x + y for (x, y) in sorted(list(zip(last, first)))])
+print([x + ", " + y for (x, y) in sorted(list(zip(last, first)))])

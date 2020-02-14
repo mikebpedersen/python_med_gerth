@@ -10,3 +10,4 @@ x = 7
 
 thing = (5, 0, -2, 3)
 
+print(sum([a * (x**i) for i, a in enumerate(thing)]))
