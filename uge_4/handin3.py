@@ -55,7 +55,7 @@ returns a list of all pairs, i.e. tuples with two elements, (a, b) where a < b.
 
 
 def pairs(L):
-    return [(a, b) for a in L for b in L if a < b]
+    return sorted([(a, b) for a in L for b in L if a < b])
 
 
 print(pairs(labels))
@@ -68,6 +68,16 @@ triples where the left subtree contains a label from A and the right subtree
 is a pair from B.
 """
 
+
+A1 = ['A', 'B']
+B1 = ['C', 'D', 'E']
+
+
+def canonical_triplets(A, B):
+    return[(i, j) for i in A for j in pairs(B)]
+
+
+print(canonical_triplets(A1, B1))
 
 
 """
