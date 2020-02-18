@@ -16,6 +16,8 @@ def generate_labels(n):
     return [("L%s" % (i+1)) for i in range(n)]
 
 
+labels = generate_labels(x)
+
 print(generate_labels(x))
 
 
@@ -36,14 +38,14 @@ would be considered cheating.
 from random import randint
 
 
-def permute(L):
-    return[L[randint(0, a)] for a in range(x, 0, -1)]
+new_labels = labels[:]
+new = []
+for i in range(0, len(labels))[::-1]:
+    b = randint(0, i)
+    new.append(labels[b])
+    labels.pop(b)
 
-for i in L:
-    
-
-
-print(permute(generate_labels(x)))
+print(new)
 
 """
 c)
