@@ -37,15 +37,15 @@ would be considered cheating.
 
 from random import randint
 
-
 new_labels = labels[:]
 new = []
-for i in range(0, len(labels))[::-1]:
+for i in range(0, len(new_labels))[::-1]:
     b = randint(0, i)
-    new.append(labels[b])
-    labels.pop(b)
+    new.append(new_labels[b])
+    new_labels.pop(b)
 
 print(new)
+
 
 """
 c)
@@ -53,12 +53,22 @@ Make a function pairs(L), that given a list of comparable elements,
 returns a list of all pairs, i.e. tuples with two elements, (a, b) where a < b.
 """
 
+
+def pairs(L):
+    return [(a, b) for a in L for b in L if a < b]
+
+
+print(pairs(labels))
+
+
 """
 d)
 Make a function canonical_triplets(A, B) that returns a list of all canonical
 triples where the left subtree contains a label from A and the right subtree
 is a pair from B.
 """
+
+
 
 """
 e)
