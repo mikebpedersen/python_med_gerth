@@ -32,3 +32,22 @@ Hint. Use the sorted function to sort a list of tuples of the form
 a frequency dictionary.
 """
 
+import re
+txt = open("saxo.txt").read()
+txt = txt.lower()
+words = re.split('[^a-z]+', txt)
+
+
+def hist(x):
+    k = {}
+    for e in words:
+        if len(e) >= 6:
+            k[e] = k.get(e, 0)+1
+    return list(k.items())
+
+
+word_hist = hist(words)
+
+word_sort = sorted([(y, x) for x, y in word_hist])[-1:-11:-1]
+
+print(word_sort)

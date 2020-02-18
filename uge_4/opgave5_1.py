@@ -6,8 +6,15 @@ its coefficients. E.g. for x = 7 and coefficients (5, 0, -2, 3) your code
 should compute the value 936.
 """
 
-x = 7
+n = int(input("Input what length your polynomial is: "))
 
-thing = (5, 0, -2, 3)
+while n <= 0:
+    n = int(input("Your polynomial cannot be of size lower than 1: "))
 
-print(sum([a * (x**i) for i, a in enumerate(thing)]))
+x = int(input("Input the integer you want your polynomial evaluated at: "))
+
+coef = []
+
+[coef.append(int(input("Input your coefficient here: "))) for i in range(n)]
+
+print(sum([a * (x**i) for (i, a) in enumerate(coef)]))
