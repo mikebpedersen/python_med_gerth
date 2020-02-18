@@ -69,8 +69,8 @@ is a pair from B.
 """
 
 
-A1 = ['A', 'B']
-B1 = ['C', 'D', 'E']
+A1 = labels[0:2]
+B1 = labels[2:6]
 
 
 def canonical_triplets(A, B):
