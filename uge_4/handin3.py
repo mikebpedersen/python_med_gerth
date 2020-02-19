@@ -23,7 +23,7 @@ while x <= 0:
     x = int(input("Du skal have over 0 strenge, prøv igen: "))
 
 
-# Definerer funktion der giver liste med labels vha. list comprehention.
+# Definerer funktion der giver liste med labels vha. list comprehension.
 # Her er det vigtigt at pointere, at måden vi har definereret
 # generate_labels(n) på gør, at vi kan sammenligne elementerne,
 # f.eks. er 'L1' < 'L2'.
@@ -56,7 +56,7 @@ from random import randint
 # Vi gør dette på den måde der er beskrevet i hintet i opgavebeskrivelsen,
 # ved at starte med hele L, og så tage et tilfældigt element ud, putte det ind
 # i en ny liste. Derefter fjerner vi et element fra L og begynder igen, indtil
-# L er tom.
+# vi har brugt alle elementer i L.
 def permute(L):
     new = []
     for i in range(0, len(L))[::-1]:
@@ -64,9 +64,9 @@ def permute(L):
         new.append(L.pop(b))
     return new
 
+
 # Printer en permutation af x labels, ved at bruge permute(generate_labels(n)).
 print(permute(generate_labels(x)))
-
 
 """
 c)
@@ -94,15 +94,20 @@ is a pair from B.
 """
 
 # Vi splitter vores liste af labels (generate_labels(x)) op i to lister. Hvis
-# x er ulige har 
+# x er ulige er: len(A1) = len(B1) - 1. Vi gør dette, for at gøre det lettere
+# at tjekke resultater i d) og e).
 A1 = generate_labels(x)[:(x//2)]
 B1 = generate_labels(x)[(x//2):]
 
 
+# Vi definerer funktionen canonical_triplets(A, B), som finder alle canonical
+# triplets for A og B. Vi bruger list comprehension og vores funktion pairs(L).
+# Vi returnerer tuplen (i, j) for element i i A for hvert element j i pairs(B).
 def canonical_triplets(A, B):
     return[(i, j) for i in A for j in pairs(B)]
 
 
+# Vi printer canonical triplets for listerne A1 og B1.
 print(canonical_triplets(A1, B1))
 
 
@@ -121,4 +126,4 @@ def anchored_triplets(L, R):
     return e
 
 
-print(len(anchored_triplets(A1, B1)))
+print(anchored_triplets(A1, B1))
