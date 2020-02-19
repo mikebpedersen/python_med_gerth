@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+from random import randint
+
+
 """
 a)
 Make a function generate_labels(n), that given an integer n returns a list of n
@@ -15,8 +19,6 @@ while x <= 0:
 def generate_labels(n):
     return [("L%s" % (i+1)) for i in range(n)]
 
-
-labels = generate_labels(x)
 
 print(generate_labels(x))
 
@@ -35,16 +37,16 @@ Note. Using the function shuffle from the module random to solve the question
 would be considered cheating.
 """
 
-from random import randint
 
-new_labels = labels[:]
-new = []
-for i in range(0, len(new_labels))[::-1]:
-    b = randint(0, i)
-    new.append(new_labels[b])
-    new_labels.pop(b)
+def permute(L):
+    new = []
+    for i in range(0, len(L))[::-1]:
+        b = randint(0, i)
+        new.append(L.pop(b))
+    return new
 
-print(new)
+
+print(permute(generate_labels(x)))
 
 
 """
@@ -55,10 +57,10 @@ returns a list of all pairs, i.e. tuples with two elements, (a, b) where a < b.
 
 
 def pairs(L):
-    return sorted([(a, b) for a in L for b in L if a < b])
+    return [(a, b) for a in L for b in L if a < b]
 
 
-print(pairs(labels))
+print(pairs(generate_labels(x)))
 
 
 """
@@ -69,8 +71,8 @@ is a pair from B.
 """
 
 
-A1 = labels[0:2]
-B1 = labels[2:6]
+A1 = generate_labels(x)[:(x//2)]
+B1 = generate_labels(x)[(x//2):]
 
 
 def canonical_triplets(A, B):
@@ -87,3 +89,11 @@ triples anchored at a node where the left subtree contains the labels in the
 list L and the right subtree contains the labels in the list R.
 """
 
+
+def anchored_triplets(L, R):
+    e = [(a, b) for a in R for b in pairs(L)]
+    e.extend(canonical_triplets(L, R))
+    return e
+
+
+print(len(anchored_triplets(A1, B1)))
