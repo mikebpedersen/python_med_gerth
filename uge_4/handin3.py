@@ -42,6 +42,7 @@ print(generate_labels(x))
 Opgave b) - permute(L)
 """
 
+# Vi importerer randint fra random for at kunne generere tilfældige tal.
 from random import randint
 
 
