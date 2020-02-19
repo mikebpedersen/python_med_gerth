@@ -13,7 +13,10 @@ Reflektion:
 
 '''
 
-# Opgave a)
+
+"""
+Opgave a) - generate_labels(n)
+"""
 
 # Input af mængde af strenge
 x = int(input("Skriv her, hvor mange strenge du vil have: "))
@@ -36,23 +39,13 @@ print(generate_labels(x))
 
 
 """
-b)
-Make a function permute(L), that given a list L, returns a new list containing
-a random permutation of the elements in L.
-
-Hint: Construct the new list left-to-right by randomly selecting an element
-not selected so far. To generate a random integer in the interval [a,b], you
-can use the function randint(a,b) from the module random (use from random
-import randint to get access to the function).
-
-Note. Using the function shuffle from the module random to solve the question
-would be considered cheating.
+Opgave b) - permute(L)
 """
 
 from random import randint
 
 
-# Definerer funktionen permute(L), der permuterer en given liste. 
+# Definerer funktionen permute(L), der permuterer en given liste.
 # Vi gør dette på den måde der er beskrevet i hintet i opgavebeskrivelsen,
 # ved at starte med hele L, og så tage et tilfældigt element ud, putte det ind
 # i en ny liste. Derefter fjerner vi et element fra L og begynder igen, indtil
@@ -68,10 +61,9 @@ def permute(L):
 # Printer en permutation af x labels, ved at bruge permute(generate_labels(n)).
 print(permute(generate_labels(x)))
 
+
 """
-c)
-Make a function pairs(L), that given a list of comparable elements,
-returns a list of all pairs, i.e. tuples with two elements, (a, b) where a < b.
+Opgave c) - pairs(L)
 """
 
 
@@ -85,17 +77,13 @@ def pairs(L):
 # Printer parene der er i generate_labels(n).
 print(pairs(generate_labels(x)))
 
-
 """
-d)
-Make a function canonical_triplets(A, B) that returns a list of all canonical
-triples where the left subtree contains a label from A and the right subtree
-is a pair from B.
+Opgave d) - canonical_triplets(A, B)
 """
-
 # Vi splitter vores liste af labels (generate_labels(x)) op i to lister. Hvis
 # x er ulige er: len(A1) = len(B1) - 1. Vi gør dette, for at gøre det lettere
-# at tjekke resultater i d) og e).
+# at tjekke resultater i d) og e). Dette er ikke strengt nødvendigt for
+# selve opgaven.
 A1 = generate_labels(x)[:(x//2)]
 B1 = generate_labels(x)[(x//2):]
 
@@ -112,13 +100,15 @@ print(canonical_triplets(A1, B1))
 
 
 """
-e)
-Make a function anchored_triplets(L, R) that returns a list of all canonical
-triples anchored at a node where the left subtree contains the labels in the
-list L and the right subtree contains the labels in the list R.
+Opgave e) - anchored_triplets(L, R)
 """
 
 
+# Vi definerer anchored_triplets(L, R) som finder alle canonical triplets,
+# der er anchored til en node, hvor det venstre subtree indeholder alle labels
+# i listen L og tilsvarende for det højre subtree. Vi anvender funktionen
+# canonical_triplets(A, B) fra opgave d), og tilføjer alle canonical triplets
+# der bliver lavet, hvis man bytter om på A og B.
 def anchored_triplets(L, R):
     e = canonical_triplets(L, R)
     f = canonical_triplets(R, L)
@@ -126,4 +116,5 @@ def anchored_triplets(L, R):
     return e
 
 
+# Vi printer alle anchored triplets for A1 og B1.
 print(anchored_triplets(A1, B1))
