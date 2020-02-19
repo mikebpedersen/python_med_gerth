@@ -10,7 +10,12 @@ Afleveringen er lavet af:
     201805266 (Frederik Thaibert)
 
 Reflektion:
-
+Oprindeligt havde vi lavet de fleste af opgaverne uden list comprehension,
+men ved at gå logisk gennem vores for-loops fik vi defineret vores funktioner
+vha. list comprehensions. F.eks. havde vi en smule svært ved at lave opgave b)
+med list comprehension, og havde defineret en tom liste, som vi appendede
+et tilfældigt element fra L til, men ved at bruge list comprehension, behøvede
+vi ikke at definere den tomme liste.
 '''
 
 
@@ -51,12 +56,10 @@ from random import randint
 # ved at starte med hele L, og så tage et tilfældigt element ud, putte det ind
 # i en ny liste. Derefter fjerner vi et element fra L og begynder igen, indtil
 # vi har brugt alle elementer i L.
+
+
 def permute(L):
-    new = []
-    for i in range(0, len(L))[::-1]:
-        b = randint(0, i)
-        new.append(L.pop(b))
-    return new
+    return [L.pop(randint(0, i)) for i in range(0, len(L))[::-1]]
 
 
 # Printer en permutation af x labels, ved at bruge permute(generate_labels(n)).
