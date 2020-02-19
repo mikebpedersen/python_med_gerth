@@ -9,12 +9,13 @@ Your implementation should use list comprehension.
 L = [[1, 2], [3, 4], [6, 3]]
 
 
-
-"""
 def flatten(lists):
     return [elm for l in lists for elm in l]
-"""
 
+
+print(flatten(L))
+
+"""
 b = []
 
 
@@ -24,5 +25,5 @@ def flatten2(lists):
             b.append(elm)
     return b
 
-
-print(flatten2(L))
+print(flatten2(lists))
+"""
