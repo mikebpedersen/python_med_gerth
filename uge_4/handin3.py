@@ -96,4 +96,4 @@ def anchored_triplets(L, R):
     return e
 
 
-print(len(anchored_triplets(A1, B1)))
+print(anchored_triplets(A1, B1))
