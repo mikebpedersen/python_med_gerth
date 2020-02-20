@@ -19,6 +19,11 @@ vi ikke at definere den tomme liste.
 '''
 
 
+# Vi importerer randint fra random for at kunne generere tilfældige tal i
+# opgave b).
+from random import randint
+
+
 """
 Opgave a) - generate_labels(n)
 """
@@ -40,16 +45,13 @@ def generate_labels(n):
 
 
 # Printer listen af x labels vha. generate_labels(n)
-print(generate_labels(x))
+print(("\nHer er en liste af % s unikke labels: \n" % x), generate_labels(x),
+      "\n")
 
 
 """
 Opgave b) - permute(L)
 """
-
-# Vi importerer randint fra random for at kunne generere tilfældige tal.
-from random import randint
-
 
 # Definerer funktionen permute(L), der permuterer en given liste.
 # Vi gør dette på den måde der er beskrevet i hintet i opgavebeskrivelsen,
@@ -63,7 +65,8 @@ def permute(L):
 
 
 # Printer en permutation af x labels, ved at bruge permute(generate_labels(n)).
-print(permute(generate_labels(x)))
+print(("Her er en tilfældig permutation af de % s labels: \n" % x),
+      permute(generate_labels(x)), "\n")
 
 
 """
@@ -73,13 +76,14 @@ Opgave c) - pairs(L)
 
 # Definerer funktionen pairs(L), der returnerer (a, b) for elementet a i L,
 # hvis der for b i L gælder, at a < b. Vi sorterer også elementerne for at
-# tage højde for, at vi f.eks. har 'L1' < 'L10' < 'L11' < 'L2'.
+# tage højde for, at vi f.eks. har 'L1' < 'L10' < 'L11' < ... < 'L2'.
 def pairs(L):
     return sorted([(a, b) for a in L for b in L if a < b])
 
 
 # Printer parene der er i generate_labels(n).
-print(pairs(generate_labels(x)))
+print(("Her er alle parene hvor a < b, for alle % s labels: \n" % x),
+      pairs(generate_labels(x)), "\n")
 
 """
 Opgave d) - canonical_triplets(A, B)
@@ -100,7 +104,9 @@ def canonical_triplets(A, B):
 
 
 # Vi printer canonical triplets for listerne A1 og B1.
-print(canonical_triplets(A1, B1))
+print("Her er alle canonical triplets for listerne A1 og B1, som er",
+      ("genereret fra de % s labels: \n" % x), canonical_triplets(A1, B1),
+      "\n")
 
 
 """
@@ -121,4 +127,5 @@ def anchored_triplets(L, R):
 
 
 # Vi printer alle anchored triplets for A1 og B1.
-print(anchored_triplets(A1, B1))
+print("Her er alle anchored triplets for listerne A1 og B1, som er genereret",
+      ("fra de % s labels: \n" % x), anchored_triplets(A1, B1), "\n")
