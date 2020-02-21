@@ -116,11 +116,9 @@ Opgave e) - anchored_triplets(L, R)
 
 # Vi definerer anchored_triplets(L, R) som finder alle canonical triplets,
 # der er anchored til en node, hvor det venstre subtree indeholder alle labels
-# i listen L og tilsvarende for det højre subtree. Vi anvender funktionen
-# canonical_triplets(A, B) fra opgave d), og tilføjer alle canonical triplets
-# der bliver lavet, hvis man bytter om på A og B.
-
-
+# i listen L og tilsvarende for det højre subtree. Vi returnerer y for et
+# x i listen af alle canonical triplets for både (L, R) og (R, L), og den
+# laves for et y i x.
 def anchored_triplets(L, R):
     return [y for x in [canonical_triplets(L, R), canonical_triplets(R, L)] for
             y in x]
