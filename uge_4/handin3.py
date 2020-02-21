@@ -119,11 +119,11 @@ Opgave e) - anchored_triplets(L, R)
 # i listen L og tilsvarende for det højre subtree. Vi anvender funktionen
 # canonical_triplets(A, B) fra opgave d), og tilføjer alle canonical triplets
 # der bliver lavet, hvis man bytter om på A og B.
+
+
 def anchored_triplets(L, R):
-    e = canonical_triplets(L, R)
-    f = canonical_triplets(R, L)
-    e.extend(f)
-    return e
+    return [y for x in [canonical_triplets(L, R), canonical_triplets(R, L)] for
+            y in x]
 
 
 # Vi printer alle anchored triplets for A1 og B1.
