@@ -50,9 +50,14 @@ a_list = ['A', 'B', 'C', 'D', 'E', 'F']
 
 
 def generate_tree(L):
-    Left = L[:randint(1, len(L))]
-    Right = L[len(Left):]
-    
+    if len(L) == 1:
+        return L[0]
+    b = randint(1, len(L)-1)
+    L_LR = L[:b], L[b:]
+    return tuple(generate_tree(i) for i in L_LR)
+
+        
+
 
 print(generate_tree(a_list))
 
