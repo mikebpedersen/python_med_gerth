@@ -23,6 +23,19 @@ Example: generate_tree(['A', 'B', 'C', 'D', 'E', 'F']) could return
 ((('A', ('B', 'C')), ('D', 'E')), 'F')
 """
 
+from random import randint
+
+a_list = ['A', 'B', 'C', 'D', 'E', 'F']
+
+
+def generate_tree(L):
+    Left = L[:randint(1, len(L))]
+    Right = L[len(Left):]
+    for l in Left:
+        generate_tree(l)
+    return (Left, Right)
+
+print(generate_tree(a_list))
 
 """
 Make a recursive function generate_triplets(T) that returns a pair

@@ -14,20 +14,20 @@ Hint. Use str.lower() and str.upper()to convert a string containing one letter
 to lower and upper case.
 
 """
+s = 'abcB'
+s = s.lower()
 
 
-def binomial_A(n, k):
-    result = 1
-    for i in range(k):
-        result = result * (n - i) // (k - i)
-    return result
+def cases(s):
+
+    if(len(s) == 1):
+        return [s, s.upper()]
+
+    else:
+        rest_cases = cases(s[1:])
+        string_lower = [s[0] + r for r in rest_cases]
+        string_upper = [s[0].upper() + r for r in rest_cases]
+        return string_lower + string_upper
 
 
-def binomial_B(n, k):
-    result = 1
-    for i in range(k)[::-1]:
-        result = result * (n - i) // (k - i)
-    return result
-
-
-print(binomial_A(10, 5), binomial_B(10, 5))
+print(cases(s))
