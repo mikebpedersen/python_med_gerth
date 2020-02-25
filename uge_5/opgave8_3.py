@@ -13,7 +13,7 @@ Example: relabel(('a', ('b', 'c')), {'a': 'x', 'c': 'y'}) should return
 ('x', ('b', 'y')).
 
 """
-"""
+
 
 def relabel(tree, new_names=None):
 
@@ -21,22 +21,9 @@ def relabel(tree, new_names=None):
         return tree
 
     if isinstance(tree, str):
-        if tree in new_names:
-            print(new_names[tree])
-
-    else:
-        for child in tree:
-            relabel(child, new_names)
-    return tree
-"""
-
-
-def relabel(tree, new_names=None):
-    if new_names is None:
-        return tree
-    if type(tree) is str:
         return new_names.get(tree, tree)
+
     return tuple(relabel(node, new_names) for node in tree)
 
 
-print(relabel(('a', ('b', 'c'))))
+print(relabel(('a', ('b', 'c')), {'a': 'x', 'c': 'y'}))

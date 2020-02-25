@@ -14,7 +14,16 @@ Hint. Use str.lower() and str.upper()to convert a string containing one letter
 to lower and upper case.
 
 """
-s = 'abcB'
+import re
+
+s = input("Skriv en streng af bogstaver, og så returneres alle permutationer "
+          "af strengen, med store og små bogstaver: ")
+
+while len(s) <= 0:
+    s = input("Skriv lige et input, makker: ")
+
+
+s = re.sub('[^a-zA-Z]', '', s)
 s = s.lower()
 
 
@@ -25,6 +34,7 @@ def cases(s):
 
     else:
         rest_cases = cases(s[1:])
+        print(rest_cases)
         string_lower = [s[0] + r for r in rest_cases]
         string_upper = [s[0].upper() + r for r in rest_cases]
         return string_lower + string_upper

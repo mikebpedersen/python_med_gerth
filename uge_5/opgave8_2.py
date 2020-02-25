@@ -22,6 +22,3 @@ def subsets(L):
 
 L = [1, 2, 3, 4, 5]
 print(subsets(L))
-
-
-# Hjælp herfra https://stackoverflow.com/questions/26332412/python-recursive-function-to-display-all-subsets-of-given-set

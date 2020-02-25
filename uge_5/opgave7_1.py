@@ -41,8 +41,9 @@ Hint. Use a * to indicate an arbitrary argument list.
 """
 
 
-def average(*x):
-    return (sum([*x])/len([*x]))
+def average(x, *y):
+    
+    return list_average([x]+list(y))
 
 
-print(average(2, 3, 4, 5, 6))
+print(average(1))

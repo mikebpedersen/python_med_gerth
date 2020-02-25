@@ -24,7 +24,6 @@ the sum of squares of the values in L:
 Hint. Use a * to indicate an arbitrary argument list.
 """
 
-
 L = [1, 2, 3, 4]
 
 print(square_sum(*L))

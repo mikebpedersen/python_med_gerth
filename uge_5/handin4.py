@@ -9,6 +9,29 @@ Afleveringen er lavet af:
 
 Reflektion:
 '''
+# Her er alle funktionerne fra handin3:
+
+from random import randint
+
+
+def generate_labels(n):
+    return [("L%s" % (i+1)) for i in range(n)]
+
+
+def permute(L):
+    return [L.pop(randint(0, i)) for i in range(0, len(L))[::-1]]
+
+
+def pairs(L):
+    return sorted([(a, b) for a in L for b in L if a < b])
+
+
+def canonical_triplets(A, B):
+    return[(i, j) for i in A for j in pairs(B)]
+
+
+def anchored_triplets(L, R):
+    return canonical_triplets(L, R) + canonical_triplets(R, L)
 
 
 """
@@ -23,17 +46,13 @@ Example: generate_tree(['A', 'B', 'C', 'D', 'E', 'F']) could return
 ((('A', ('B', 'C')), ('D', 'E')), 'F')
 """
 
-from random import randint
-
 a_list = ['A', 'B', 'C', 'D', 'E', 'F']
 
 
 def generate_tree(L):
     Left = L[:randint(1, len(L))]
     Right = L[len(Left):]
-    for l in Left:
-        generate_tree(l)
-    return (Left, Right)
+    
 
 print(generate_tree(a_list))
 
