@@ -12,6 +12,10 @@ Vi har generelt haft flest problemer med opgave b), og til det har vi fået
 hjælp fra Nikolaj. Efter vi havde løst den opgave, så var de næste to ikke
 super svære. Vi besluttede os for at gøre det nemmere at tjekke køretid for
 forskellige længder af træer, ved at bruge inputs.
+
+I opgave d) har vi ikke taget højde for, at hvis mængden af labels bliver stor
+nok, så stopper programmet ikke indtil vi har kørt igennem den mængde labels
+der rammer vores threshold.
 '''
 # Her er alle funktionerne fra handin3, som vi bruger i denne handin:
 
@@ -73,12 +77,10 @@ def generate_triplets(T):
     if isinstance(T, str):
         return [T], []
     labels = []
-    triplets_left = generate_triplets(T[0])
-    triplets_right = generate_triplets(T[1])
-    labels += triplets_left[0] + triplets_right[0]
-    return (labels,
-            (anchored_triplets(triplets_left[0], triplets_right[0])
-             + triplets_left[1] + triplets_right[1]))
+    left = generate_triplets(T[0])
+    right = generate_triplets(T[1])
+    labels += left[0] + right[0]
+    return labels, (anchored_triplets(left[0], right[0]) + left[1] + right[1])
 
 
 """
@@ -115,7 +117,7 @@ håndtere ca. 3*10^1 labels.
 
 # Vi importerer time fra time, så vi kan måle hvor lang tid det tager at
 # generere træer af voksende størrelse og at finde triplet distance af disse.
-# Vi definerer check_time_*(y), som måler hvor lang tid det tager at anvende
+# Vi definerer check_time_*(), som måler hvor lang tid det tager at anvende
 # funktionen, ved at tage forskellen mellem tiden før vi kører funktionen, og
 # tiden efter vi kører funktionen. Vi kører dette i en range fra 0 til y.
 # Dette kan også gøres med spring af en størrelse, (n < y), så vi hurtigere
@@ -127,9 +129,8 @@ håndtere ca. 3*10^1 labels.
 
 def check_time_tree(compute=0):
 
-    x = int(input("How many labels do you"
-                  " want to check compute time for triplet"
-                  " distance for? "))
+    x = int(input("How many labels do you want to check the compute time"
+                  " to generate random trees for? "))
     while x < 1:
         x = int(input("Input #labels above 0: "))
                   
@@ -137,7 +138,9 @@ def check_time_tree(compute=0):
     while n < 1:
         n = int(input("Input a step-size above 0: "))
 
-    th = 10
+    th = float(input("Write threshold(sec) you want here: "))
+    while th <= 0:
+        th = float(input("Input a threshold above 0: "))
 
     for i in range(0, x+1, n):
         if i == 0:
@@ -148,7 +151,7 @@ def check_time_tree(compute=0):
             end = time()
             t = end - start
 
-            if t > th:
+            if t >= th:
                 return print("We have reached our threshold of %s s.," % (th),
                              "with a length of %s," % (i),
                              "and a time(sec) of %s." % (t))
@@ -162,18 +165,21 @@ def check_time_tree(compute=0):
                  "seconds with %s labels." % (x))
 
 
-def check_time_triplets(x, compute=0):
+def check_time_triplets(compute=0):
     
     x = int(input("How many labels do you want to check"
-                  "compute time for triplet"
+                  " compute time for triplet"
                   " distance for? "))
     while x < 1:
         x = int(input("Input #labels above 0: "))
+
     n = int(input("Write the step-size you want here: "))
     while n < 1:
         n = int(input("Input a step-size above 0: "))
 
-    th = 10
+    th = float(input("Write threshold you want here: "))
+    while th <= 0:
+        th = float(input("Input a threshold above 0: "))
 
     for i in range(0, x+1, n):
         if i == 0:
@@ -186,7 +192,7 @@ def check_time_triplets(x, compute=0):
             t = end - start
 
             if t > th:
-                return print("We have reached our threshold of %s s.," % (th),
+                return print("We have reached our threshold of %ss.," % (th),
                              "with a length of %s," % (i),
                              "and a time(sec) of %s." % (t))
 

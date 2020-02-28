@@ -126,4 +126,5 @@ def anchored_triplets(L, R):
 
 # Vi printer alle anchored triplets for A1 og B1.
 print("Her er alle anchored triplets for listerne A1 og B1, som er genereret",
-      ("fra de % s labels: \n" % x), anchored_triplets(A1, B1), "\n")
+      ("fra de % s labels: \n" % x), anchored_triplets(['B', 'A', 'F'], ['D', 'C', 'E']), "\n")
+print(len(anchored_triplets(['B', 'A', 'F'], ['D', 'C', 'E'])))
