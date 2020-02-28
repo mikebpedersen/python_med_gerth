@@ -13,20 +13,8 @@ Reflektion:
 
 from random import randint
 
-x = int(input("Skriv her, hvor mange strenge du vil have: "))
-
-while x <= 0:
-    x = int(input("Du skal have over 0 strenge, prøv igen: "))
-
-
-
 def generate_labels(n):
     return [("L%s" % (i+1)) for i in range(n)]
-
-
-def permute(L):
-    return [L.pop(randint(0, i)) for i in range(0, len(L))[::-1]]
-
 
 def pairs(L):
     return sorted([(a, b) for a in L for b in L if a < b])
@@ -53,99 +41,64 @@ Opgave a) - Lav generate_tree(L), som genererer tilfældige træer fra en liste.
 
 
 def generate_tree(L):
+    if len(L) == 0:
+        return None
+
     if len(L) == 1:
         return L[0]
 
-    r_len = randint(1, len(L)-1)
-
-    return tuple(generate_tree(elm) for elm in (L[:r_len], L[r_len:]))
-
-
-print(generate_tree(generate_labels(x)))
-
-"""
-Make a recursive function generate_triplets(T) that returns a pair
-(labels, triplets) where labels is a list of all leaf labels of T, and
-triplets is a list of all canonical triplets anchored at some node of T.
-
-Hint. Use isinstance(T, str) to check if T is a leaf.
-
-Example: For the tree (a) in part I of this exercise
-generate_triplets(((('A','F'),'B'),('D',('C','E')))) should return the
-following pair consisting of a list with the 6 leaf labels, and a list with
-the 20 canonical triplets anchored in the tree.
-(['A', 'F', 'B', 'D', 'C', 'E'],
-[('B', ('A', 'F')), ('D', ('C', 'E')), ('A', ('D', 'E')), ('A', ('C', 'D')),
-('A', ('C', 'E')), ('F', ('D', 'E')), ('F', ('C', 'D')), ('F', ('C', 'E')),
-('B', ('D', 'E')), ('B', ('C', 'D')), ('B', ('C', 'E')), ('D', ('A', 'F')),
-('D', ('A', 'B')), ('D', ('B', 'F')), ('C', ('A', 'F')), ('C', ('A', 'B')),
-('C', ('B', 'F')), ('E', ('A', 'F')), ('E', ('A', 'B')), ('E', ('B', 'F'))])
-"""
-"""
-    for subtree in T:
-        if isinstance(subtree, tuple):
-            return find_subtree(subtree)
-        elif isinstance(subtree, str):
-        
-    if isinstance(T, tuple):
-        return [anchored_triplets(i, j) for i, j in T]
     else:
-        return [find_subtree(i) for i in T]
+        r_len = randint(1, len(L)-1)
+        return tuple(generate_tree(elm) for elm in (L[:r_len], L[r_len:]))
+
+
 """
+Opgave b) - Lav generate_triplets(T), som returnerer labels og triplets for et
+            træ.
 """
+
+# Vi definerer generate_triplets(T), som først tjekker om vores træ er en str,
+# hvis ja, så er vi i slutningen af vores træ, og kan returnere strengen og en
+# tom liste, som vi kan bruge rekursivt. 
+# Vi deler så træet i to, og anvender retursivt vorse funktion, så vi kan komme
+# ned i bunden af træet, og lægger derefter de nye labels til en tom liste, 
+# labels. Så returnerer vi labels for træet, samt alle anchored triplets for
+# hver side af træet.
+
+
 def generate_triplets(T):
-
-    def find_subtree(T):
-        if isinstance(T, tuple):
-            return [find_subtree(i) for i in T]
-        else:
-            return [i for i in T]
-    
-    
-    def find_labels(T, labels=None):
-
-        if labels is None:
-            labels = []
-
-        if isinstance(T, str):
-            print(T)
-            labels.append(T)
-            print(labels)
-
-        else:
-            for elm in T:
-                print(elm)
-                find_labels(elm, labels)
-                
-        return labels
-    
-    
-    return (find_labels(T))
+    if isinstance(T, str):
+        return [T], []
+    labels = []
+    triplets_left = generate_triplets(T[0])
+    triplets_right = generate_triplets(T[1])
+    labels += triplets_left[0] + triplets_right[0]
+    return (labels,
+            (anchored_triplets(triplets_left[0], triplets_right[0])
+             + triplets_left[1] + triplets_right[1]))
 
 
-print(generate_triplets(((('A', 'F'), 'B'), ('D', ('C', 'E')))))
 """
+Opgave c) - Lav triplet_distance(T1, T2), som beregner triplet-distance mellem
+            to træer.
 """
-Make a function triplet_distance(T1, T2) that computes the triplet distance
-between the trees T1 and T2.
 
-Hint. Recall that the triplet distance equals n(n-1)(n-2)/6 minus the number
-of common triplets between T1 and T2, and use Python set to handle the sets
-of computed triplets.
-
-Example: For the two trees above
-triplet_distance(((('A','F'),'B'),('D',('C','E'))),
-(((('D','A'),'B'),'F'),('C','E')) should return 10.
-"""
+# Inputtet til triplet_distance er de to træer, som vi vil måle forskellen på.
+# n er hvor mange labels vi har, og equation er den ligning, som vi fik givet
+# i opgavebeskrivelsen. I variablen common finder vi alle de triplets som
+# opstår i begge træer. Returnerer vi forskellen længden af common fra
+# equation, så vi finder triplet distance mellem de to træer.
 
 def triplet_distance(T1, T2):
 
-    n = len(generate_triplets(T1[0]))
+    n = len(generate_triplets(T1)[0])
     equation = n * (n-1) * (n-2) // 6
-    
-    common = [x for x in generate_triplets(T1)[1] for y in generate_triplets(T2)[1] if x == y]
+
+    common = [x for x in generate_triplets(T1)[1] 
+                for y in generate_triplets(T2)[1] if x == y]
 
     return equation - len(common)
+
 
 """
 What is the order of the tree sizes you can handle with generate_tree and
@@ -155,31 +108,105 @@ random trees of increasing sizes and measure the time for generate_tree and
 triplet_distance separately.
 """
 
+# Vi importerer time fra time, så vi kan måle hvor lang tid det tager at
+# generere træer af voksende størrelse og at finde triplet distance af disse.
+# Vi definerer check_time_*(y), som måler hvor lang tid det tager at anvende
+# funktionen, ved at tage forskellen mellem tiden før vi kører funktionen, og
+# tiden efter vi kører funktionen. Vi kører dette i en range fra 0 til y.
+# Dette kan også gøres med spring af en størrelse, (n < y), så vi hurtigere
+# kan komme hen til træer af større størrelse. For hvert i i rangen tjekker vi
+# om vi har nået et nyt maks, hvis vi har det, så printer vi størrelsen af
+# træet, og hvor lang tid det tog. Hvis vi når vores threshold, så stopper
+# vi med at tjekke.
+
+
 from time import time
-import matplotlib.pyplot as plt
 
-labels, compute_time = [], []
 
-def check_time(y):
-    for i in range(1, y+1):
-        blabla = generate_labels(i)
-        x = len(blabla)
-        start = time()
-        generate_tree(blabla)  # the computation we time
-        end = time()
-        t = end - start
-        print("i =", i, "x =", y, "time(sec) =", t)
-        labels.append(x)
-        compute_time.append(t)
+def check_time_tree(y, compute=0):
 
-    plt.title('Generating Random Trees')
-    plt.xlabel('Amount of labels')
-    plt.ylabel('computation time (seconds)')
-    plt.plot(labels, compute_time, "g:")
-    plt.plot(labels, compute_time, "ro")
-    plt.show()
+    n = int(input("Write the step-size you want here: "))
+    while n < 1:
+        n = int(input("Input a step-size above 0: "))
 
-#print(check_time(x))
+    th = 10
+
+    for i in range(0, y+1, n):
+        if i == 0:
+            next
+        else:
+            start = time()
+            generate_tree(generate_labels(i))
+            end = time()
+            t = end - start
+
+            if t > th:
+                return print("We have reached our threshold of %s s.," % (th),
+                             "with a length of %s," % (i),
+                             "and a time(sec) of %s." % (t))
+
+            if t >= compute:
+                compute = t
+                print("Length of tree with the longest compute time(sec)"
+                      " so far is: %s," % (i), " with time: %.5f." % t)
+
+    return print("We did not hit our threshold of %s" % (th),
+                 "seconds with %s labels." % (y))
+
+
+x = int(input("How many labels do you want to check compute time for? "))
+
+while x < 1:
+    x = int(input("Input #labels above 0: "))
+
+
+check_time_tree(x)
+
+def check_time_triplets(y, compute=0):
+
+    n = int(input("Write the step-size you want here: "))
+    while n < 1:
+        n = int(input("Input a step-size above 0: "))
+
+    th = 10
+
+    for i in range(0, y+1, n):
+        if i == 0:
+            next
+        else:
+            start = time()
+            triplet_distance(generate_tree(generate_labels(i)),
+                             generate_tree(generate_labels(i)))
+            end = time()
+            t = end - start
+
+            if t > th:
+                return print("We have reached our threshold of %s s.," % (th),
+                             "with a length of %s," % (i),
+                             "and a time(sec) of %s." % (t))
+
+            if t >= compute:
+                compute = t
+                print("Length of tree with the longest compute time(sec)"
+                      " for triplets so far is: %s," % (i), 
+                      " with time: %.5f." % t)
+
+    return print("We did not hit our threshold of %s" % (th),
+                 "seconds with %s labels." % (y))
+
+
+x = int(input("How many labels do you want to check compute time for triplet",
+              "distance for? "))
+
+while x < 1:
+    x = int(input("Input #labels above 0: "))
+
+
+check_time_triplets(x)
+
+# Vi har observeret, at vi kan klare at generere træer på ca. 2*10^6 labels
+# på 10 sekunder. Hvis vi også skal lave triplet distance, så kan vi kun
+# håndtere ca. 3*10^1 labels.
 
 """
 (Optional) Make a function print_ascii_tree(T) to print trees like the ones
