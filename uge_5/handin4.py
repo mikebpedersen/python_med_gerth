@@ -8,9 +8,14 @@ Afleveringen er lavet af:
     201805266 (Frederik Thaibert)
 
 Reflektion:
+Vi har generelt haft flest problemer med opgave b), og til det har vi fået
+hjælp fra Nikolaj. Efter vi havde løst den opgave, så var de næste to ikke
+super svære. Vi besluttede os for at gøre det nemmere at tjekke køretid for
+forskellige længder af træer, ved at bruge inputs.
 '''
-# Her er alle funktionerne fra handin3:
+# Her er alle funktionerne fra handin3, som vi bruger i denne handin:
 
+from time import time
 from random import randint
 
 def generate_labels(n):
@@ -41,8 +46,6 @@ Opgave a) - Lav generate_tree(L), som genererer tilfældige træer fra en liste.
 
 
 def generate_tree(L):
-    if len(L) == 0:
-        return None
 
     if len(L) == 1:
         return L[0]
@@ -101,11 +104,13 @@ def triplet_distance(T1, T2):
 
 
 """
-What is the order of the tree sizes you can handle with generate_tree and
-triplet_distance in reasonable time - say about 10 seconds? Tens, hundreds,
-thousands, millions... of leaves? Use the function generate_tree to generate
-random trees of increasing sizes and measure the time for generate_tree and
-triplet_distance separately.
+Opgave d) - Tider for tilfældigt genererede træer
+"""
+
+"""
+Vi har observeret, at vi kan klare at generere træer på ca. 2*10^6 labels
+på 10 sekunder. Hvis vi også skal lave triplet distance, så kan vi kun
+håndtere ca. 3*10^1 labels.
 """
 
 # Vi importerer time fra time, så vi kan måle hvor lang tid det tager at
@@ -116,22 +121,25 @@ triplet_distance separately.
 # Dette kan også gøres med spring af en størrelse, (n < y), så vi hurtigere
 # kan komme hen til træer af større størrelse. For hvert i i rangen tjekker vi
 # om vi har nået et nyt maks, hvis vi har det, så printer vi størrelsen af
-# træet, og hvor lang tid det tog. Hvis vi når vores threshold, så stopper
+# træet, og hvor lang tid det tog. Hvis vi når vores threshold, th, så stopper
 # vi med at tjekke.
 
 
-from time import time
+def check_time_tree(compute=0):
 
-
-def check_time_tree(y, compute=0):
-
+    x = int(input("How many labels do you"
+                  " want to check compute time for triplet"
+                  " distance for? "))
+    while x < 1:
+        x = int(input("Input #labels above 0: "))
+                  
     n = int(input("Write the step-size you want here: "))
     while n < 1:
         n = int(input("Input a step-size above 0: "))
 
     th = 10
 
-    for i in range(0, y+1, n):
+    for i in range(0, x+1, n):
         if i == 0:
             next
         else:
@@ -151,26 +159,23 @@ def check_time_tree(y, compute=0):
                       " so far is: %s," % (i), " with time: %.5f." % t)
 
     return print("We did not hit our threshold of %s" % (th),
-                 "seconds with %s labels." % (y))
+                 "seconds with %s labels." % (x))
 
 
-x = int(input("How many labels do you want to check compute time for? "))
-
-while x < 1:
-    x = int(input("Input #labels above 0: "))
-
-
-check_time_tree(x)
-
-def check_time_triplets(y, compute=0):
-
+def check_time_triplets(x, compute=0):
+    
+    x = int(input("How many labels do you want to check"
+                  "compute time for triplet"
+                  " distance for? "))
+    while x < 1:
+        x = int(input("Input #labels above 0: "))
     n = int(input("Write the step-size you want here: "))
     while n < 1:
         n = int(input("Input a step-size above 0: "))
 
     th = 10
 
-    for i in range(0, y+1, n):
+    for i in range(0, x+1, n):
         if i == 0:
             next
         else:
@@ -192,23 +197,5 @@ def check_time_triplets(y, compute=0):
                       " with time: %.5f." % t)
 
     return print("We did not hit our threshold of %s" % (th),
-                 "seconds with %s labels." % (y))
+                 "seconds with %s labels." % (x))
 
-
-x = int(input("How many labels do you want to check compute time for triplet",
-              "distance for? "))
-
-while x < 1:
-    x = int(input("Input #labels above 0: "))
-
-
-check_time_triplets(x)
-
-# Vi har observeret, at vi kan klare at generere træer på ca. 2*10^6 labels
-# på 10 sekunder. Hvis vi også skal lave triplet distance, så kan vi kun
-# håndtere ca. 3*10^1 labels.
-
-"""
-(Optional) Make a function print_ascii_tree(T) to print trees like the ones
-shown in part I of this exercise.
-"""
