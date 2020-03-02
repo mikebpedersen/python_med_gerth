@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 
 Exercise 9.1 (bitonic minimum)
@@ -13,3 +11,16 @@ Python builtin min function).
 Example: bitonic_min([10,7,4,2,3,5,9,11]) should return 2.
 
 """
+
+
+def bitonic_min(L, min_so_far=None):
+
+    min_so_far = L[0]
+
+    for i in L:
+        if i <= min_so_far:
+            min_so_far = i
+        else:
+            return min_so_far
+
+    return min_so_far
