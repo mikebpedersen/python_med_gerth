@@ -13,14 +13,24 @@ Example: bitonic_min([10,7,4,2,3,5,9,11]) should return 2.
 """
 
 
-def bitonic_min(L, min_so_far=None):
+def bitonic_min(L):
+    low = 0
+    high = len(L) - 1
 
-    min_so_far = L[0]
+    if len(L) < 3:
+        return None
 
-    for i in L:
-        if i <= min_so_far:
-            min_so_far = i
+    while low <= high:
+        mid = (low + high) // 2
+
+        mid_left = L[mid - 1]
+        mid_right = L[mid + 1]
+
+        if mid_left < L[mid] < mid_right:
+            high = mid - 1
+
+        elif mid_left > L[mid] > mid_right:
+            low = mid + 1
+
         else:
-            return min_so_far
-
-    return min_so_far
+            return L[mid]

@@ -53,3 +53,64 @@ before returning from a recursive call.
 Use print('\n'.join(maze)) to print the maze.
 
 """
+
+
+def explore(i, j):
+    global solution, visited, maze2
+    if (0 <= i < n and 0 <= j < m and maze[i][j] != "#" and not visited[i][j]):
+        visited[i][j] = True
+
+        if maze[i][j] == 'B':
+            solution = True
+            maze[i] = maze[i][:j] + 'x' + maze[i][j+1:]
+            maze2 = maze[:]
+
+        maze[i] = maze[i][:j] + 'x' + maze[i][j+1:]
+
+        explore(i-1, j)
+        explore(i+1, j)
+        explore(i, j-1)
+        explore(i, j+1)
+
+        maze[i] = maze[i][:j] + '.' + maze[i][j+1:]
+
+
+def find(symbol):
+    for i in range(n):
+        j = maze[i].find(symbol)
+        if j >= 0:
+            return (i, j)
+
+
+n, m = 11, 19
+
+streng = ['#######A###########',
+          '#.......#.#...#...#',
+          '#.###.###...#.#.#.#',
+          '#...#.....#.#...#.#',
+          '#.#.###.#.#.#.###.#',
+          '#.#.....#...#.#...#',
+          '#.###########.#.#.#',
+          '#.#.#.....#...#.#.#',
+          '#.#.#####.#####.#.#',
+          '#.........#.....#.#',
+          '###############B###']
+
+maze = [i for i in streng]
+
+# n, m = [int(x) for x in input().split()]
+# maze = [input() for i in range(n)]
+
+solution = False
+visited = [m*[False] for i in range(n)]
+
+explore(*find('A'))
+
+if solution:
+    print("path from A to B exists")
+
+else:
+    print("no path")
+
+print('Solution:')
+print('\n'.join(maze2))
